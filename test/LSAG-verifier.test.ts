@@ -70,22 +70,13 @@ describe("LSAG evm-verifier", function () {
       await SigVerifier.verify(message, ring_, responses, c, keyImage, linkabilityFlag, witnesses),
     );
 
-    // const point1: BigNumberish[] = [10332262407579932743619774205115914274069865521774281655691935407979316086911n, 100548694955223641708987702795059132275163693243234524297947705729826773642827n];
-    // const point2: BigNumberish[] = [30103554500144535254965021336757008479704861502777924021458799636567575289359n, 52090609727678693574435399254703833889410700116234244177206170117175907888773n];
-
-    // console.log("ecAdd: ",
-    //   await SigVerifier.ecAdd(point1, point2),
-    // )
+    console.log("test: ",
+      await SigVerifier.test(),
+    )
     expect(
       await SigVerifier.verify(message, ring_, responses, c, keyImage, linkabilityFlag, witnesses)
     ).to.equal(true);
 
-    // uint256 message,
-    //   uint256[] memory ring,
-    //     uint256[] memory responses,
-    //       uint256 c, // signature seed
-    //         uint256[2] memory keyImage,
-    //           string memory linkabilityFlag, // todo: use bytes instead
-    //             uint256[] memory witnesses /
+
   });
 });

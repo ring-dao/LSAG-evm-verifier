@@ -63,6 +63,15 @@ contract RingDao {
         uint256[] memory witnesses
     ) public {
         uint256 message = uint256(keccak256(abi.encodePacked(_description)));
+        // require all the ring members to be part of the dao
+        for (uint256 i = 0; i < ring.length; i += 2) {
+            require(
+                memberShipNft.balanceOf(
+                    lsagVerifier.pointToAddress([ring[i], ring[i + 1]])
+                ) > 0,
+                "all ring members should be part of the dao"
+            );
+        }
         // only member can create proposal
         require(
             lsagVerifier.verify(
@@ -87,9 +96,8 @@ contract RingDao {
         });
     }
 
-    function vote(
+    function voteTrue(
         uint256 _proposalId,
-        bool _vote,
         uint256[] memory ring,
         uint256[] memory responses,
         uint256 c, // signature seed
@@ -97,7 +105,16 @@ contract RingDao {
         string memory linkabilityFlag,
         uint256[] memory witnesses
     ) public {
-        uint256 message = uint256(keccak256(abi.encodePacked(_proposalId, _vote)));
+        // require all the ring members to be part of the dao
+        for (uint256 i = 0; i < ring.length; i += 2) {
+            require(
+                memberShipNft.balanceOf(
+                    lsagVerifier.pointToAddress([ring[i], ring[i + 1]])
+                ) > 0,
+                "all ring members should be part of the dao"
+            );
+        }
+        uint256 message = uint256(keccak256(abi.encodePacked(_proposalId)));
         // check if proposal is still open
         require(
             block.timestamp < proposals[_proposalId].startTime + VOTE_DURATION,
@@ -120,17 +137,60 @@ contract RingDao {
 
         // check if member has already voted
         address member = lsagVerifier.pointToAddress(keyImage);
-        require(
-            !voted[_proposalId][member],
-            "member has already voted"
-        );
+        require(!voted[_proposalId][member], "member has already voted");
 
         // vote
-        if (_vote) {
-            proposals[_proposalId].voteForCount++;
-        } else {
-            proposals[_proposalId].voteAgainstCount++;
+        proposals[_proposalId].voteForCount++;
+
+        // mark keyImage as voted
+        voted[_proposalId][member] = true;
+    }
+
+    function voteFalse(
+        uint256 _proposalId,
+        uint256[] memory ring,
+        uint256[] memory responses,
+        uint256 c, // signature seed
+        uint256[2] memory keyImage,
+        string memory linkabilityFlag,
+        uint256[] memory witnesses
+    ) public {
+        // require all the ring members to be part of the dao
+        for (uint256 i = 0; i < ring.length; i += 2) {
+            require(
+                memberShipNft.balanceOf(
+                    lsagVerifier.pointToAddress([ring[i], ring[i + 1]])
+                ) > 0,
+                "all ring members should be part of the dao"
+            );
         }
+        uint256 message = uint256(keccak256(abi.encodePacked(_proposalId)));
+        // check if proposal is still open
+        require(
+            block.timestamp < proposals[_proposalId].startTime + VOTE_DURATION,
+            "proposal is closed"
+        );
+
+        // only member can vote
+        require(
+            lsagVerifier.verify(
+                message,
+                ring,
+                responses,
+                c,
+                keyImage,
+                linkabilityFlag,
+                witnesses
+            ),
+            "only member can vote"
+        );
+
+        // check if member has already voted
+        address member = lsagVerifier.pointToAddress(keyImage);
+        require(!voted[_proposalId][member], "member has already voted");
+
+        // vote
+        proposals[_proposalId].voteAgainstCount++;
 
         // mark keyImage as voted
         voted[_proposalId][member] = true;
@@ -151,7 +211,10 @@ contract RingDao {
 
         // check if proposal is approved
         require(
-            proposals[_proposalId].voteForCount * 100 / (proposals[_proposalId].voteForCount + proposals[_proposalId].voteAgainstCount) > MIN_ACCEPTANCE_RATIO,
+            (proposals[_proposalId].voteForCount * 100) /
+                (proposals[_proposalId].voteForCount +
+                    proposals[_proposalId].voteAgainstCount) >
+                MIN_ACCEPTANCE_RATIO,
             "proposal is not approved"
         );
 

@@ -5,6 +5,7 @@ pragma solidity ^0.8.20;
 import {EllipticCurve} from "./utils/ec-solidity.sol";
 
 contract LSAGVerifier {
+
     // Field size
     uint256 constant pp =
         0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F;
