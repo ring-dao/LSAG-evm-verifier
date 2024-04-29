@@ -2,7 +2,10 @@
 
 ## Overview
 
-This repository contains the Solidity implementation of the LSAG signature verification algorithm. The LSAG algorithm is a cryptographic technique used for digital signatures, providing anonymity for the signer and enabling group signature generation without requiring interaction with others. This implementation is designed to be used in the context of the [V0rtex-01 hackathoin](https://dorahacks.io/hackathon/v0rtex-01).
+This repository contains the Solidity implementation of RING DAO :
+- The voting contract
+- The LSAG signature verification algorithm. The LSAG algorithm is a cryptographic technique used for digital signatures, providing anonymity for the signer and enabling group signature generation without requiring interaction with others. This implementation is designed to be used in the context of the [V0rtex-01 hackathoin](https://dorahacks.io/hackathon/v0rtex-01).
+- The Ring DAO NFT Membership contract
 
 This version is derived from the open source version of [Cypher Lab](https://www.cypherlab.org/) available [here](https://github.com/Cypher-Laboratory/evm-verifier)
 
