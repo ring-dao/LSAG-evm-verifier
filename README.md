@@ -1,1 +1,1 @@
-# LSAG-evm-verifier
+# evm-verifier
