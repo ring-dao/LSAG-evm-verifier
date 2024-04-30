@@ -14,15 +14,19 @@ This version is derived from the open source version of [Cypher Lab](https://www
 - Membership NFT contract:[0x6e9a1082205896d75ebb3c72b1bbb593f31d781f](https://sepolia.scrollscan.com/token/0x6e9a1082205896d75ebb3c72b1bbb593f31d781f)
 - LSAG verifier contract:[0x76a6409592983a2bd96a1fc928f40fcb0ff86f9f](https://sepolia.scrollscan.com/address/0x76a6409592983a2bd96a1fc928f40fcb0ff86f9f)
 
+
 ## The Contracts
 ### Private Voting contract
 The private voting contract is a smart contract that allows users to vote on proposals while keeping their votes private. The contract uses the LSAG signature verification algorithm to ensure the anonymity of voters and protect against double voting. The contract also includes functionality for creating and managing proposals, as well as for tallying the votes and determining the outcome of the vote and executing the proposal if it passes.
 
+
 ### Membership NFT contract
 The membership NFT contract is a smart contract that issues non-fungible tokens (NFTs) to users who are members of the Ring DAO. The NFTs serve as proof of membership and grant holders access to certain privileges and benefits within the DAO. The contract includes functionality for minting, as well as for verifying membership status and enforcing access control based on NFT ownership. The NFTs are not transferable and only one can be minted per address.
 
+
 ### LSAG verifier contract
 The LSAG verifier contract is a smart contract that implements the LSAG signature verification algorithm. The contract provides a function that takes as input the necessary parameters for verifying an LSAG signature and returns a boolean value indicating whether the signature is valid. This contract can be used by other contracts that require LSAG signature verification, such as the private voting contract.
+
 
 ## What are LSAGs: Linkable Spontaneous Anonymous Group Signatures (over ECC)
 
@@ -64,4 +68,4 @@ For any major changes, please open an issue first to discuss what you would like
 
 ## Contact
 
-If you have any questions, please contact us at `contact@cypherlab.fr`
+If you have any questions, please contact us at `contact@cypherlab.fr`.
